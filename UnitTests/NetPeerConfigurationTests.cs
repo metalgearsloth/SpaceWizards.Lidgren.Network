@@ -49,5 +49,31 @@ namespace UnitTests
                 Assert.That(config.ExpandMTUFailAttempts, Is.EqualTo(1));
             });
         }
+
+        [Test]
+        public void MaximumTransmissionUnitRejectsValuesBelowProtocolMinimum()
+        {
+            var config = new NetPeerConfiguration("Test");
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(() => config.MaximumTransmissionUnit = NetPeerConfiguration.kMinimumMTU - 1, Throws.TypeOf<NetException>());
+                Assert.That(() => config.MaximumTransmissionUnit = NetPeerConfiguration.kMinimumMTU, Throws.Nothing);
+                Assert.That(config.MaximumTransmissionUnit, Is.EqualTo(NetPeerConfiguration.kMinimumMTU));
+            });
+        }
+
+        [Test]
+        public void MaximumTransmissionUnitV6RejectsValuesBelowProtocolMinimum()
+        {
+            var config = new NetPeerConfiguration("Test");
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(() => config.MaximumTransmissionUnitV6 = NetPeerConfiguration.kMinimumMTU - 1, Throws.TypeOf<NetException>());
+                Assert.That(() => config.MaximumTransmissionUnitV6 = NetPeerConfiguration.kMinimumMTU, Throws.Nothing);
+                Assert.That(config.MaximumTransmissionUnitV6, Is.EqualTo(NetPeerConfiguration.kMinimumMTU));
+            });
+        }
     }
 }

@@ -52,6 +52,8 @@ namespace Lidgren.Network
 		/// </remarks>
 		public const int kDefaultMTUV6 = 1232;
 
+		internal const int kMinimumMTU = 32;
+
 		private const string c_isLockedMessage = "You may not modify the NetPeerConfiguration after it has been used to initialize a NetPeer";
 
 		private bool m_isLocked;
@@ -271,8 +273,8 @@ namespace Lidgren.Network
 			{
 				if (m_isLocked)
 					throw new NetException(c_isLockedMessage);
-				if (value < 1 || value >= ((ushort.MaxValue + 1) / 8))
-					throw new NetException("MaximumTransmissionUnit must be between 1 and " + (((ushort.MaxValue + 1) / 8) - 1) + " bytes");
+				if (value < kMinimumMTU || value >= ((ushort.MaxValue + 1) / 8))
+					throw new NetException("MaximumTransmissionUnit must be between " + kMinimumMTU + " and " + (((ushort.MaxValue + 1) / 8) - 1) + " bytes");
 				m_maximumTransmissionUnit = value;
 			}
 		}
@@ -289,8 +291,8 @@ namespace Lidgren.Network
 			{
 				if (m_isLocked)
 					throw new NetException(c_isLockedMessage);
-				if (value < 1 || value >= ((ushort.MaxValue + 1) / 8))
-					throw new NetException("MaximumTransmissionUnitV6 must be between 1 and " + (((ushort.MaxValue + 1) / 8) - 1) + " bytes");
+				if (value < kMinimumMTU || value >= ((ushort.MaxValue + 1) / 8))
+					throw new NetException("MaximumTransmissionUnitV6 must be between " + kMinimumMTU + " and " + (((ushort.MaxValue + 1) / 8) - 1) + " bytes");
 				m_maximumTransmissionUnitV6 = value;
 			}
 		}
